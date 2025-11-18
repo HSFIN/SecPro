@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class RecipeController extends Controller
 {
@@ -145,6 +146,42 @@ class RecipeController extends Controller
         // 8. Redirect back to the detail page
         return redirect()->route('recipes.show', $recipe->id)
             ->with('success', 'Recipe updated successfully!');
+    }
+
+    /**
+     * Append additional content to an existing recipe.
+     */
+    public function append(Request $request, Recipe $recipe)
+    {
+        $validated = $request->validate([
+            'description_append' => 'nullable|string',
+            'ingredients_append' => 'nullable|string',
+            'steps_append' => 'nullable|string',
+        ]);
+
+        // Ensure at least one field is provided
+        if (empty(array_filter($validated))) {
+            throw ValidationException::withMessages([
+                'description_append' => 'Add at least one field to append to the recipe.',
+            ]);
+        }
+
+        if (!empty($validated['description_append'])) {
+            $recipe->description = trim($recipe->description . "\n\n" . $validated['description_append']);
+        }
+
+        if (!empty($validated['ingredients_append'])) {
+            $recipe->ingredients = trim($recipe->ingredients . "\n" . $validated['ingredients_append']);
+        }
+
+        if (!empty($validated['steps_append'])) {
+            $recipe->steps = trim($recipe->steps . "\n" . $validated['steps_append']);
+        }
+
+        $recipe->save();
+
+        return redirect()->route('recipes.show', $recipe->id)
+            ->with('success', 'Recipe updated with your additions!');
     }
 
     /**

@@ -19,6 +19,12 @@
     <div class="header">
         <h1>All Recipes</h1>
 
+        @if(session('success'))
+            <div style="background: #e6ffed; color: #155724; padding: 10px 15px; margin-right: 20px; border: 1px solid #c3e6cb; border-radius: 4px;">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <form action="{{ route('recipes.index') }}" method="GET" class="search-form">
             <input type="text" name="search" placeholder="Cari resep..." value="{{ request('search') }}">
             <button type="submit">Search</button>
