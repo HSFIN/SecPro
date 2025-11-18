@@ -30,6 +30,14 @@ class AuthManager extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard'); // atau route admin kamu
+        }
+
+        if (Auth::user()->hasRole('user')) {
+        return redirect()->route('mainPage');
+        }
+
             return redirect()->intended(route('mainPage')); 
         }
 

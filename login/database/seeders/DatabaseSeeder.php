@@ -1,4 +1,6 @@
-database/seeders/DatabaseSeeder.php
+<?php
+
+namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -7,13 +9,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call([
-            RoleSeeder::class, // Ini akan membuat role 'admin' dan 'user'
-        ]);
-        
+        $this->call(RoleSeeder::class);
+
         User::factory()->create([
             'name' => 'Admin Utama',
             'email' => 'admin@email.com',
             'password' => 'FoodBlogSec1',
-        ])->assignRole('admin'); 
+        ])->assignRole('admin');
+    }
 }

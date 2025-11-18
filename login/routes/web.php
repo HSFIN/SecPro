@@ -11,6 +11,11 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/comment', function () {
+    return view('comment');
+});
+
+
 Route::get('/createpage', function () {
     return view('createPage');
 });
@@ -34,6 +39,10 @@ Route::get('/forgetpass2', function () {
 Route::get('/mainpage', function () {
     return view('mainPage');
 })->name('mainPage');
+
+Route::get('/profile', function () {
+    return view('profile');
+});
 
 Route::get('/profile', function () {
     return view('profile');
