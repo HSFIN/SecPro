@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MainPageController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('index');
@@ -34,21 +36,15 @@ Route::get('/forgetpass2', function () {
     return view('forgetPass2');
 });
 
-Route::get('/profile', function () {
-    return view('profile');
-});
-
-Route::get('/profile', function () {
-    return view('profile');
-});
+Route::get('/profile', [ProfileController::class, 'show'])
+    ->middleware('auth')
+    ->name('profile');
 
 Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/mainPage', function () {
-    return view('mainPage');
-})->name('mainPage');
+Route::get('/mainPage', [MainPageController::class, 'index'])->name('mainPage');
 
 Route::get('/login', [AuthManager::class,'login'])->name('login');
 Route::post('/login', [AuthManager::class,'loginPost'])->name('login.post');
