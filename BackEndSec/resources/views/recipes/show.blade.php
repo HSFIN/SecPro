@@ -55,6 +55,9 @@
         <div class="content-column">
             
             <h1 class="recipe-title">{{ $recipe->title }}</h1>
+            <p style="margin: 8px 0 20px; font-weight: 600; color: #555;">
+                Ditulis oleh {{ optional($recipe->user)->name ?? 'Unknown cook' }}
+            </p>
             
             <p class="recipe-description">
                 {{ $recipe->description }}
@@ -93,13 +96,19 @@
                 </form>
             </section>
 
-            <form action="{{ route('recipes.destroy', $recipe->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this recipe?');" style="margin-top: 20px;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" style="padding: 10px 15px; background-color: #dc3545; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-                    Delete Recipe
-                </button>
-            </form>
+            @php
+                $canDelete = auth()->check() && (auth()->user()->role === 'admin' || auth()->id() === $recipe->user_id);
+            @endphp
+
+            @if($canDelete)
+                <form action="{{ route('recipes.destroy', $recipe->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this recipe?');" style="margin-top: 20px;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="padding: 10px 15px; background-color: #dc3545; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
+                        Delete Recipe
+                    </button>
+                </form>
+            @endif
 
         </div>
     </main>
