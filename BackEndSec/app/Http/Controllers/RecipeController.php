@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -17,7 +18,7 @@ class RecipeController extends Controller
     public function index()
     {
         // Start with the base query builder
-        $query = Recipe::query();
+        $query = Recipe::query()->with('user');
 
         // === START: NEW SEARCH LOGIC ===
         // Check if the request has a 'search' input
@@ -74,7 +75,8 @@ class RecipeController extends Controller
             'description' => $validatedData['description'],
             'ingredients' => $validatedData['ingredients'],
             'steps' => $validatedData['steps'],
-            'image_path' => $path, 
+            'image_path' => $path,
+            'user_id' => Auth::id(),
         ]);
 
         // 4. Redirect to the new recipe's detail page
@@ -87,6 +89,8 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe) // Laravel automatically finds the recipe by its ID
     {
+        $recipe->loadMissing('user');
+
         return view('recipes.show', [
             'recipe' => $recipe
         ]);
@@ -192,6 +196,15 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        $user = Auth::user();
+
+        abort_if(is_null($user), 403, 'You must be logged in to delete recipes.');
+
+        $isOwner = $recipe->user_id === $user->id;
+        $isAdmin = $user->role === 'admin';
+
+        abort_if(! $isOwner && ! $isAdmin, 403, 'You are not allowed to delete this recipe.');
+
         // Optional: Delete image when deleting recipe
         if ($recipe->image_path) {
             Storage::delete('public/' . $recipe->image_path);
