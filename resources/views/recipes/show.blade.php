@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
-    <!-- Using your specific comment layout CSS -->
     <link rel="stylesheet" href="{{ asset('css/comment.css') }}">
 </head>
 <body>
@@ -23,21 +22,34 @@
     </header>
 
     <main>
-        <!-- LEFT COLUMN: RECIPE -->
         <section class="recipe-section">
-            <a href="javascript:history.back()" class="back-btn">
+            
+            <a href="javascript:history.back()" class="back-btn" style="
+                display: inline-block;
+                background-color: #ffcc00; /* Yellow/Orange match */
+                color: #000; /* Black text */
+                padding: 10px 20px;
+                border-radius: 50px; /* Pill shape */
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 14px;
+                border: none;
+                margin-bottom: 20px; 
+                font-family: 'Montserrat', sans-serif;
+            ">
                 &larr; Back to Recipes
             </a>
 
-            <!-- Recipe Image -->
-            <img src="{{ asset('storage/' . $recipe->image_path) }}" alt="{{ $recipe->title }}" class="recipe-img">
+            <img src="{{ asset('storage/' . $recipe->image_path) }}" 
+                 alt="{{ $recipe->title }}" 
+                 class="recipe-img" 
+                 style="display: block; width: 100%; margin-bottom: 20px; border-radius: 10px;">
 
-            <!-- Recipe Content -->
             <h1 style="font-family: 'Georgia', serif; font-size: 2rem; margin-bottom: 10px;">{{ $recipe->title }}</h1>
             
             <div class="author">
                 <img src="{{ asset('foto/logoprofile.png') }}" alt="Author">
-                <span>By <strong>Admin</strong></span> <!-- Replace with dynamic author if available -->
+                <span>By <strong>Admin</strong></span> 
             </div>
 
             <p style="line-height: 1.6; color: #555; margin-bottom: 30px;">
@@ -59,15 +71,12 @@
             </div>
         </section>
 
-        <!-- RIGHT COLUMN: COMMENTS -->
         <section class="comments-section">
             <h2>Comments</h2>
 
-            <!-- List of Comments -->
             <div class="comments-list-container">
                 @forelse($recipe->comments()->latest()->get() as $comment)
                     <div class="comment">
-                        <!-- Avatar -->
                         <img src="https://ui-avatars.com/api/?name={{ urlencode($comment->username ?? 'Guest') }}&background=random" alt="User">
                         
                         <div class="comment-content">
@@ -77,7 +86,6 @@
                             </h4>
                             <p>{{ $comment->comment_text }}</p>
                             
-                            <!-- Delete Button (Subtle) -->
                             @if(auth()->check() && auth()->id() === $comment->user_id)
                             <form action="{{ route('comments.destroy', $comment) }}" method="POST" style="margin-top: 5px;">
                                 @csrf
@@ -92,20 +100,16 @@
                 @endforelse
             </div>
 
-            <!-- Comment Form (Bottom) -->
             <div class="comment-input">
-                <!-- User Avatar (Current User) -->
                 <img src="{{ asset('foto/logoprofile.png') }}" alt="You">
                 
                 <form action="{{ route('comments.store', $recipe) }}" method="POST" class="comment-form-wrapper">
                     @csrf
                     
-                    <!-- Guest Name Input (Only show if guest) -->
                     @if(!auth()->check())
                     <input type="text" name="username" class="guest-name-input" placeholder="Name" required>
                     @endif
 
-                    <!-- Comment Text -->
                     <input type="text" name="comment_text" placeholder="Add a comment..." required autocomplete="off">
                     
                     <button type="submit">Post</button>

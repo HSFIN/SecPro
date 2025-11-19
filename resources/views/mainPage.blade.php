@@ -121,36 +121,7 @@
             </div>
         </section>
         
-        <div class="recipe-of-the-week-separator">
-            <h2 class="separator-title">Recipe of the Week</h2> 
-            <span class="date-indicator">18/09</span>
-        </div>
-
-        <section class="recipe-of-the-week">
-            <div class="recipe-row">
-                
-                <div class="recipe-highlight">
-                    <img src="foto/double_bacon_cheeseburger.png" alt="Double Bacon Cheeseburger" class="highlight-image">
-                    <div class="highlight-info">
-                        <h3>Double Bacon Cheeseburger</h3>
-                        <p class="recipe-snippet">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla mollis lectus in, lobortis qui.</p>
-                        <a href="recipe_cheeseburger" class="read-more-button">Read More</a>
-                    </div>
-                </div>
-
-                <div class="recipe-highlight">
-                    <img src="foto/mango_shaved_ice_cream.png" alt="Mango Shaved Ice Cream" class="highlight-image">
-                    <div class="highlight-info">
-                        <h3>Mango Shaved Ice Cream</h3>
-                        <p class="recipe-snippet">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla mollis lectus in, lobortis qui.</p>
-                        <a href="recipe_mango_ice_cream" class="read-more-button">Read More</a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
+        </main>
 
 </body>
 </html>

@@ -26,10 +26,6 @@ Route::get('/detailresep', function () {
     return view('detailResep');
 });
 
-Route::get('/editprofile', function () {
-    return view('editProfile');
-});
-
 Route::get('/forgetpass', function () {
     return view('forgetPass');
 });
@@ -38,17 +34,21 @@ Route::get('/forgetpass2', function () {
     return view('forgetPass2');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
 Route::get('/mainpage', function () {
     return view('mainPage');
-})->name('mainPage');
-
-Route::get('/profile', function () {
-    return view('profile');
-});
-
-Route::get('/profile', function () {
-    return view('profile');
-});
+})->name('mainpage');
 
 Route::get('/login', [AuthManager::class,'login'])->name('login');
 Route::post('/login', [AuthManager::class,'loginPost'])->name('login.post');
@@ -65,3 +65,41 @@ Route::post('/recipes/{recipe}/comments', [CommentController::class, 'store'])
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
     ->name('comments.destroy')
     ->middleware('auth');
+
+// Route::get('/mainpage', function () {
+    
+//     $weeklyRecipes = [
+//         [
+//             'title' => 'Double Bacon Cheeseburger',
+//             'image' => 'foto/double_bacon_cheeseburger.png',
+//             'description' => 'Nikmati sensasi daging bacon ganda dengan keju meleleh.',
+//             'link' => '/detailresep' 
+//         ],
+//         [
+//             'title' => 'Mango Shaved Ice Cream',
+//             'image' => 'foto/mango_shaved_ice_cream.png',
+//             'description' => 'Segarnya mangga dipadukan dengan es serut lembut.',
+//             'link' => '/detailresep'
+//         ]
+//     ];
+//     return view('mainPage', compact('weeklyRecipes'));
+// });
+
+// Route::put('/editprofile', function (Request $request) {
+//     $user = Auth::user();
+
+
+//     $request->validate([
+        
+        
+//         'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+//         'phone' => 'nullable|string|max:15', 
+//     ]);
+
+  
+//     $user->name = $request->name;
+//     $user->email = $request->email;
+    
+//     $user->save();
+//     return back()->with('success', 'Profile updated successfully!');
+// })->name('profile.update');
