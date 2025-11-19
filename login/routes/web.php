@@ -40,6 +40,14 @@ Route::get('/profile', [ProfileController::class, 'show'])
     ->middleware('auth')
     ->name('profile');
 
+Route::get('/editprofile', [ProfileController::class, 'edit'])
+    ->middleware('auth')
+    ->name('profile.edit');
+
+Route::put('/editprofile', [ProfileController::class, 'update'])
+    ->middleware('auth')
+    ->name('profile.update');
+
 Route::get('/contact', function () {
     return view('contact');
 });
