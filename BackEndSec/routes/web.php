@@ -49,3 +49,4 @@ Route::get('/register', function () {
 
 Route::resource('recipes', RecipeController::class);
 Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
+Route::post('/recipes/{recipe}/append', [RecipeController::class, 'append'])->name('recipes.append');
