@@ -14,7 +14,7 @@
     <button class="back-btn" onclick='window.location.href="{{ route("mainPage") }}"'>
         <img src="{{ asset('foto/arrow1.png') }}" alt="back">
     </button>
-    <button class="edit-btn" onclick='window.location.href="{{ url("/editprofile") }}"'>Edit Profile</button>
+    <button class="edit-btn" onclick='window.location.href="{{ route("profile.edit") }}"'>Edit Profile</button>
     <button class="create-btn" onclick='window.location.href="{{ route("recipes.create") }}"'>Create +</button>
   </header>
 
@@ -23,15 +23,16 @@
   </div>
 
   <div class="profile-pic">
-    <img src="{{ asset('foto/curry.png') }}" alt="Foto Profile">
+    <img src="{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : asset('foto/curry.png') }}" alt="Foto Profile">
   </div>
 
   <div class="profile-info">
     <h1>{{ $user->name }}</h1>
     <h3>{{ '@' . Str::slug($user->name, '') }}</h3>
     <p class="bio">
-      {{ $user->email }}
+      {{ $user->bio ?? 'No bio added yet.' }}
     </p>
+    <p class="bio" style="margin-top:6px; color:#666;">{{ $user->email }}</p>
   </div>
 
   <div class="food-grid">
