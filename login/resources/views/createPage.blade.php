@@ -17,7 +17,7 @@
 
     <main class="create-container">
         <div class="back-link">
-            <button onclick='window.location.href="{{ url("/mainpage") }}"'>
+            <button onclick='window.location.href="{{ route("mainPage") }}"'>
                 &larr; Back
             </button>
         </div>
