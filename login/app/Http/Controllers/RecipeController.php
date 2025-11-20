@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class RecipeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -98,6 +103,8 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe) // Changed $id to Recipe $recipe for automatic binding
     {
+        $this->authorizeOwner($recipe);
+
         return view('recipes.edit', [
             'recipe' => $recipe
         ]);
@@ -108,6 +115,8 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $recipe)
     {
+        $this->authorizeOwner($recipe);
+
         // 1. Validate (Notice: image is 'nullable' here, so it's optional)
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -156,6 +165,8 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        $this->authorizeOwner($recipe);
+
         // Optional: Delete image when deleting recipe
         if ($recipe->image_path) {
             Storage::delete('public/' . $recipe->image_path);
@@ -165,5 +176,12 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.index')
             ->with('success', 'Recipe deleted successfully');
+    }
+
+    private function authorizeOwner(Recipe $recipe): void
+    {
+        if (auth()->id() !== $recipe->user_id) {
+            abort(403, 'You are not authorized to modify this recipe.');
+        }
     }
 }
