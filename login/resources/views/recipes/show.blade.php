@@ -34,6 +34,17 @@
 
             <!-- Recipe Content -->
             <h1 style="font-family: 'Georgia', serif; font-size: 2rem; margin-bottom: 10px;">{{ $recipe->title }}</h1>
+
+            @if(auth()->check() && auth()->id() === $recipe->user_id)
+            <div style="margin-bottom: 15px; display:flex; gap:10px;">
+                <a href="{{ route('recipes.edit', $recipe) }}" style="background:#4CAF50; color:white; padding:8px 14px; border-radius:6px; text-decoration:none;">Edit Recipe</a>
+                <form action="{{ route('recipes.destroy', $recipe) }}" method="POST" style="margin:0;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="background:#e74c3c; color:white; padding:8px 14px; border:none; border-radius:6px; cursor:pointer;">Delete Recipe</button>
+                </form>
+            </div>
+            @endif
             
             <div class="author">
                 <img src="{{ asset('foto/logoprofile.png') }}" alt="Author">

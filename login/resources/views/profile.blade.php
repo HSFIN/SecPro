@@ -16,6 +16,9 @@
     </button>
     <button class="edit-btn" onclick='window.location.href="{{ route("profile.edit") }}"'>Edit Profile</button>
     <button class="create-btn" onclick='window.location.href="{{ route("recipes.create") }}"'>Create +</button>
+    <form action="{{ route('logout') }}" method="GET" style="margin:0;">
+      <button type="submit" class="edit-btn" style="background:#f44336; border-color:#f44336;">Logout</button>
+    </form>
   </header>
 
   <div class="banner">
@@ -41,6 +44,12 @@
         <img src="{{ $recipe->image_path ? asset('storage/' . $recipe->image_path) : asset('foto/makanan1.png') }}" alt="{{ $recipe->title }}">
         <div class="card-actions">
           <a class="edit-btn-card" href="{{ route('recipes.show', $recipe) }}">View</a>
+          <a class="edit-btn-card" href="{{ route('recipes.edit', $recipe) }}">Edit</a>
+          <form action="{{ route('recipes.destroy', $recipe) }}" method="POST" style="margin:0;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="edit-btn-card" style="background:#f44336;">Delete</button>
+          </form>
         </div>
         <h3>{{ $recipe->title }}</h3>
         <p>{{ Str::limit($recipe->description, 120) }}</p>
