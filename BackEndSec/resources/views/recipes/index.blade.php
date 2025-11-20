@@ -44,6 +44,9 @@
                 @endif
                 <div>
                     <h2><a href="{{ route('recipes.show', $recipe->id) }}">{{ $recipe->title }}</a></h2>
+                    <p style="margin: 4px 0; color: #555; font-size: 0.95rem;">
+                        By {{ optional($recipe->user)->name ?? 'Unknown author' }}
+                    </p>
                     <p>{{ Str::limit($recipe->description, 100) }}</p>
                 </div>
             </div>
