@@ -33,15 +33,23 @@ class User extends Authenticatable
     /**
      * Auto-assign role "user" when a new user is created
      */
-    protected static function booted()
-    {
-        static::created(function ($user) {
+    protected static function booted(){
+    static::created(function ($user) {
+        if ($user->email !== 'admin@email.com') {
             $user->assignRole('user');
-        });
-    }
+        }
+    });
+}
+
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
+
+        public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
 }
