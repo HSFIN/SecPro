@@ -18,12 +18,10 @@
 
     <div class="header">
         <h1>All Recipes</h1>
-
         <form action="{{ route('recipes.index') }}" method="GET" class="search-form">
             <input type="text" name="search" placeholder="Cari resep..." value="{{ request('search') }}">
             <button type="submit">Search</button>
         </form>
-
     </div>
 
     <a href="{{ route('recipes.create') }}" style="display: block; margin-bottom: 20px;">+ Create New Recipe</a>
@@ -35,11 +33,14 @@
             <div class="recipe-card">
                 @if($recipe->image_path)
                     <img src="{{ asset('storage/' . $recipe->image_path) }}" alt="{{ $recipe->title }}">
-                @endif
+                @endif               
                 <div>
                     <h2><a href="{{ route('recipes.show', $recipe->id) }}">{{ $recipe->title }}</a></h2>
                     <p>{{ Str::limit($recipe->description, 100) }}</p>
                 </div>
+
+                <x-delete-button :recipe="$recipe" />
+
             </div>
         @endforeach
     @endif

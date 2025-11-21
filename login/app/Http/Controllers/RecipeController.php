@@ -162,18 +162,24 @@ class RecipeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy(Recipe $recipe)
     {
-        abort_unless(auth()->check() && auth()->id() === $recipe->user_id, 403, 'Unauthorized');
+    $user = auth()->user();
+      
+    $isAdmin = $user->hasRole('admin'); 
+    $isOwner = $user->id === $recipe->user_id;
 
-        // Optional: Delete image when deleting recipe
-        if ($recipe->image_path) {
-            Storage::delete('public/' . $recipe->image_path);
-        }
-        
-        $recipe->delete();
-
-        return redirect()->route('recipes.index')
-            ->with('success', 'Recipe deleted successfully');
+    if (!$isAdmin && !$isOwner) {
+        abort(403, 'You cant delete this recipe');
     }
+      
+    if ($recipe->image_path) {
+        Storage::delete('public/' . $recipe->image_path);
+    }
+
+    $recipe->delete();
+
+    return redirect()->route('recipes.index')
+        ->with('success', 'Recipe deleted successfully!');
 }
